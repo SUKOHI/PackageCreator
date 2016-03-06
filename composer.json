@@ -1,0 +1,20 @@
+{
+  "name": "sukohi/package-creator",
+  "description": "A Laravel package to create own package.",
+  "authors": [
+    {
+      "name": "Sukohi",
+      "email": "capilano.sukohi@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "laravel/framework": "~5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sukohi\\PackageCreator\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
+}
