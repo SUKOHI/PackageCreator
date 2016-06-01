@@ -28,12 +28,20 @@ class PackageCreatorServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->singleton('command.package_creator:make', function ($app) {
+		$this->app->singleton('command.make:package', function ($app) {
 
 			return $app['Sukohi\PackageCreator\Commands\PackageCreatorCommand'];
 
 		});
+		$this->commands('command.make:package');
+
+		$this->app->singleton('command.package_creator:make', function ($app) {
+
+			return $app['Sukohi\PackageCreator\Commands\DeprecatedPackageCreatorCommand'];
+
+		});
 		$this->commands('command.package_creator:make');
+
 	}
 
 	/**

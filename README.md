@@ -15,11 +15,11 @@ Register the service provider in app.php
         Sukohi\PackageCreator\PackageCreatorServiceProvider::class,
     ]
 
-Now you should be able to execute `php artisan package_creator:make` command.
+Now you should be able to execute `php artisan make:package` command.
 
 # Basic usage
 
-`php artisan package_creator:make vendor_name package_name [package_dir=packages]`
+`php artisan make:package vendor_name package_name [package_dir=packages]`
 
 *Arguments*
 
@@ -28,9 +28,9 @@ Now you should be able to execute `php artisan package_creator:make` command.
 * 3rd: Packages directory name you'd like to put new package. (Optional, Default: packages)
 
 e.g.)  
-`php artisan package_creator:make sukohi my-package [package_dir]`
+`php artisan make:package sukohi my-package [package_dir]`
 
-After calling `package_creator:make` command, some instructions will appear.
+After calling `make:package` command, some instructions will appear.
 So please follow it.
 
 # Options

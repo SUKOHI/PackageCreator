@@ -12,7 +12,7 @@ class PackageCreatorCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'package_creator:make {vendor_name} {package_name} {package_dir=packages} {--views} {--publish}';
+    protected $signature = 'make:package {vendor_name} {package_name} {package_dir=packages} {--views} {--publish}';
 
     /**
      * The console command description.
