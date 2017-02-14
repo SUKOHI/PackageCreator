@@ -35,7 +35,7 @@ class {!! studly_case($package) !!}ServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app['{!! str_slug($package) !!}'] = $this->app->share(function($app)
+        $this->app->singleton('{!! str_slug($package) !!}', function()
         {
             return new {!! studly_case($package) !!};
         });
