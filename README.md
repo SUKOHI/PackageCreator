@@ -8,6 +8,8 @@ Execute composer command.
 
     composer require sukohi/package-creator:2.*
 
+Your Laravel's version is 5.5+, it is done!
+
 Register the service provider in app.php
 
     'providers' => [
