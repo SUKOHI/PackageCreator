@@ -15,5 +15,15 @@
             "{!! studly_case($vendor) !!}\\{!! studly_case($package) !!}\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "{!! studly_case($vendor) !!}\\{!! studly_case($package) !!}\\{!! studly_case($package) !!}ServiceProvider"
+            ],
+            "aliases": {
+                "{!! studly_case($package) !!}": "{!! studly_case($vendor) !!}\\{!! studly_case($package) !!}\\Facades\\{!! studly_case($package) !!}"
+            }
+        }
+    }
 }
