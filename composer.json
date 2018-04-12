@@ -16,5 +16,12 @@
       "Sukohi\\PackageCreator\\": "src/"
     }
   },
-  "minimum-stability": "stable"
+  "minimum-stability": "stable",
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Sukohi\\PackageCreator\\PackageCreatorServiceProvider"
+      ]
+    }
+  }
 }
