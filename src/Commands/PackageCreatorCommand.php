@@ -12,7 +12,8 @@ class PackageCreatorCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:package {vendor_name} {package_name} {package_dir=packages} {--views} {--publish}';
+    protected $signature = 'make:package';
+//    protected $signature = 'make:package {vendor_name} {package_name} {package_dir=packages} {--views} {--publish}';
 
     /**
      * The console command description.
@@ -88,6 +89,15 @@ class PackageCreatorCommand extends Command
     }
 
 	private function init() {
+
+        if($this->ask('Your vendor name?')) {
+
+
+
+        }
+
+
+        die("xxx");
 
 		$this->_dir = strtolower($this->argument('package_dir'));
 		$this->_vendor = strtolower($this->argument('vendor_name'));

@@ -34,14 +34,6 @@ class PackageCreatorServiceProvider extends ServiceProvider {
 
 		});
 		$this->commands('command.make:package');
-
-		$this->app->singleton('command.package_creator:make', function ($app) {
-
-			return $app['Sukohi\PackageCreator\Commands\DeprecatedPackageCreatorCommand'];
-
-		});
-		$this->commands('command.package_creator:make');
-
 	}
 
 	/**
