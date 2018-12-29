@@ -18,4 +18,4 @@ e.g.)
 At last call the next commands.
 
 4) composer dumpautoload -o
-5) php artisan config:cache
+5) php artisan config:clear

@@ -1,12 +1,13 @@
 {
     "name": "{!! $vendor !!}/{!! $package !!}",
-    "description": "Your package description here.",
+    "description": "Description here.",
     "authors": [
         {
-            "name": "{!! studly_case($vendor) !!}",
+            "name": "{!! $vendor !!}",
             "email": "test@example.com"
         }
     ],
+    "license": "MIT",
     "require": {
         "laravel/framework": "~5.0"
     },

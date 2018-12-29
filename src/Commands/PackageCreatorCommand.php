@@ -27,7 +27,7 @@ class PackageCreatorCommand extends Command
 	 *
 	 * @var string
 	 */
-	private $_dir;
+	private $_dir = 'packages';
 
 	/**
 	 * Vendor name.
@@ -56,12 +56,41 @@ class PackageCreatorCommand extends Command
 	 * @var boolean
 	 */
 	private $_views_flag = false;
+
 	/**
 	 * Whether need publishing.
 	 *
 	 * @var boolean
 	 */
 	private $_publish_flag = false;
+
+	/**
+	 * Whether need route.
+	 *
+	 * @var boolean
+	 */
+	private $_route_flag = false;
+
+	/**
+	 * Whether need command.
+	 *
+	 * @var boolean
+	 */
+	private $_command_flag = false;
+
+	/**
+	 * Whether need migration.
+	 *
+	 * @var boolean
+	 */
+	private $_migration_flag = false;
+
+	/**
+	 * Whether need translation.
+	 *
+	 * @var boolean
+	 */
+	private $_translation_flag = false;
 
     /**
      * Create a new command instance.
@@ -82,28 +111,63 @@ class PackageCreatorCommand extends Command
      */
     public function handle()
     {
-		$this->init();
-		$this->createDirectories();
-		$this->createFiles();
-		$this->resultMessage();
+		$result = $this->init();
+
+		if($result) {
+
+            $this->createDirectories();
+            $this->createFiles();
+            $this->resultMessage();
+
+        }
+
+        $this->info('Done!');
     }
 
 	private function init() {
 
-        if($this->ask('Your vendor name?')) {
+        $requied_questions = [
+            '_vendor' => 'Vendor Name? (e.g. your-name)',
+            '_package' => 'Package Name? (e.g. package-name)',
+            '_dir' => 'Package Directory? (Default: packages)',
+        ];
 
+        foreach ($requied_questions as $key => $requied_question) {
 
+            $answer = strtolower($this->ask($requied_question));
+
+            if(empty($answer)) {
+
+                if($key === '_dir') {
+
+                    continue;
+
+                }
+
+                return false;
+
+            }
+
+            $this->{$key} = $answer;
 
         }
 
+        $optional_questions = [
+            '_publish_flag' => 'Publish File(s)?',
+            '_views_flag' => 'Load View(s)?',
+            '_route_flag' => 'Load Route(s)?',
+            '_command_flag' => 'Load Command(s)?',
+            '_migration_flag' => 'Load Migration(s)?',
+            '_translation_flag' => 'Load Translation(s)?',
+        ];
 
-        die("xxx");
+        foreach ($optional_questions as $key => $optional_question) {
 
-		$this->_dir = strtolower($this->argument('package_dir'));
-		$this->_vendor = strtolower($this->argument('vendor_name'));
-		$this->_package = strtolower($this->argument('package_name'));
-		$this->_views_flag = $this->option('views');
-		$this->_publish_flag = $this->option('publish');
+            $this->{$key} = $this->confirm($optional_question);
+
+        }
+
+		return true;
 
 	}
 
@@ -145,7 +209,11 @@ class PackageCreatorCommand extends Command
 				'vendor' => $this->_vendor,
 				'package' => $this->_package,
 				'views_flag' => $this->_views_flag,
-				'publish_flag' => $this->_publish_flag
+				'publish_flag' => $this->_publish_flag,
+				'command_flag' => $this->_command_flag,
+				'route_flag' => $this->_route_flag,
+				'migration_flag' => $this->_migration_flag,
+				'translation_flag' => $this->_translation_flag,
 			])->render();
 
 			if(!$this->_files->put($path, $contents)) {
@@ -171,9 +239,19 @@ class PackageCreatorCommand extends Command
 			'package_facades' => base_path($this->_dir .'/'. $vendor .'/'. $package .'/src/Facades')
 		];
 
-		if($this->_views_flag) {
+		$additional_path_keys = [
+		    '_views_flag' => 'views',
+            '_migration_flag' => 'migrations',
+            '_translation_flag' => 'translations',
+        ];
 
-			$paths['package_view'] = base_path($this->_dir .'/'. $vendor .'/'. $package .'/src/views');
+        foreach ($additional_path_keys as $key => $path_key) {
+
+            if($this->{$key}) {
+
+                $paths[$path_key] = base_path($this->_dir .'/'. $vendor .'/'. $package .'/src/'. $path_key);
+
+            }
 
 		}
 

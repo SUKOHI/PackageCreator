@@ -1,4 +1,6 @@
-{!! '<' !!}?php namespace {!! studly_case($vendor) !!}\{!! studly_case($package) !!}\Facades;
+{!! '<' !!}?php
+
+namespace {!! studly_case($vendor) !!}\{!! studly_case($package) !!}\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
