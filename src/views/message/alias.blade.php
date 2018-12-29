@@ -1,0 +1,1 @@
+'{!! $package !!}' => \{!! $vendor !!}\{!! $package !!}\Facades\{!! $package !!}::class

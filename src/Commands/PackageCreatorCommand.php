@@ -13,7 +13,6 @@ class PackageCreatorCommand extends Command
      * @var string
      */
     protected $signature = 'make:package';
-//    protected $signature = 'make:package {vendor_name} {package_name} {package_dir=packages} {--views} {--publish}';
 
     /**
      * The console command description.
@@ -113,28 +112,30 @@ class PackageCreatorCommand extends Command
     {
 		$result = $this->init();
 
-		if($result) {
+		if(!$result) {
 
-            $this->createDirectories();
-            $this->createFiles();
-            $this->resultMessage();
+            $this->warn('Canceled.' ."\n");
+            die();
 
         }
 
-        $this->info('Done!');
+        $this->createDirectories();
+        $this->createFiles();
+        $this->resultMessage();
+        $this->comment('Done!' ."\n");
     }
 
 	private function init() {
 
-        $requied_questions = [
+        $required_questions = [
             '_vendor' => 'Vendor Name? (e.g. your-name)',
             '_package' => 'Package Name? (e.g. package-name)',
             '_dir' => 'Package Directory? (Default: packages)',
         ];
 
-        foreach ($requied_questions as $key => $requied_question) {
+        foreach ($required_questions as $key => $required_question) {
 
-            $answer = strtolower($this->ask($requied_question));
+            $answer = strtolower($this->ask($required_question));
 
             if(empty($answer)) {
 
@@ -295,19 +296,31 @@ class PackageCreatorCommand extends Command
 
 	private function resultMessage() {
 
-		$this->info("New package generated.\n");
-		$vendor = $this->getVendorNameStudly();
-		$package = $this->getPackageNameStudly();
-		$service_provider = $vendor .'\\'. $package .'\\'. $package .'ServiceProvider::class';
-		$alias = "'". $package ."' => ". $vendor ."\\". $package ."\\" ."Facades". "\\". $package ."::class";
-		$comment = view('package-creator::result_message', [
-			'package_dir' => $this->_dir,
-			'vendor' => $this->getVendorNameStudly(),
-			'package' => $this->getPackageNameStudly(),
-			'service_provider' => $service_provider,
-			'alias' => $alias
-		])->render();
-		$this->comment($comment);
+		$service_provider = view('package-creator::message.service_provider')->with([
+            'package' => $this->getPackageNameStudly(),
+            'vendor' => $this->getVendorNameStudly(),
+        ])->render();
+		$alias = view('package-creator::message.alias')->with([
+            'package' => $this->getPackageNameStudly(),
+            'vendor' => $this->getVendorNameStudly(),
+        ])->render();
+        $composer_autoload = view('package-creator::message.composer_autoload')->with([
+            'package' => $this->getPackageNameStudly(),
+            'package_dir' => $this->_dir,
+            'vendor' => $this->getVendorNameStudly(),
+        ])->render();
+
+        $this->comment('******************************');
+        $this->comment('*   New package generated!   *');
+        $this->comment('******************************'. "\n");
+        $this->line('Now You need to add the next lines to `/config/app.php`'. "\n");
+        $this->info('1) '. $service_provider);
+        $this->info('2) '. $alias. "\n");
+        $this->line('Also add the next to `/composer.json` in "autoload" > "psr-4"'. "\n");
+        $this->info('3) '. $composer_autoload ."\n");
+        $this->line('Execute the next commands.'. "\n");
+        $this->info('4) composer dumpautoload -o');
+        $this->info('5) php artisan config:clear'. "\n");
 
 	}
 

@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "laravel/framework": "~5.0"
+        "laravel/framework": "~{!! app()->version() !!}"
     },
     "autoload": {
         "psr-4": {

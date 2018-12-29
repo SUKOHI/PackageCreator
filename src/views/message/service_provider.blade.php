@@ -1,0 +1,1 @@
+\{!! $vendor !!}\{!! $package !!}\{!! $package !!}ServiceProvider::class

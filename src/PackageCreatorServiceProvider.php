@@ -1,4 +1,6 @@
-<?php namespace Sukohi\PackageCreator;
+<?php
+
+namespace Sukohi\PackageCreator;
 
 use Illuminate\Support\ServiceProvider;
 

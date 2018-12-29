@@ -1,0 +1,1 @@
+"{!! $vendor !!}\\{!! $package !!}\\": "{!! $package_dir !!}/{!! $vendor !!}/{!! $package !!}/src"
